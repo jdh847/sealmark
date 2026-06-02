@@ -1,0 +1,25 @@
+{
+  "name": "sealmark",
+  "version": "0.0.1",
+  "description": "Private proof of existence for Obsidian notes via OpenTimestamps and Bitcoin.",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["obsidian", "opentimestamps", "bitcoin", "timestamp", "proof-of-existence"],
+  "author": "the team behind Nexum",
+  "license": "MIT",
+  "dependencies": {
+    "opentimestamps": "^0.4.9"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "builtin-modules": "^5.2.0",
+    "esbuild": "^0.28.0",
+    "obsidian": "^1.13.0",
+    "tslib": "^2.8.1",
+    "typescript": "^6.0.3"
+  }
+}
