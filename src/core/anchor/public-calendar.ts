@@ -58,13 +58,16 @@ export class PublicCalendarBackend implements AnchorBackend {
     const o = api();
     try {
       const detached = deserialize(proof.ots);
-      const result = await o.verify(detached);
-      // 0.4.9 returns a per-chain map, e.g. { bitcoin: { timestamp, height } }.
-      // Shape is defensive here; confirm against a real confirmed proof on-machine.
-      const btc = result && (result.bitcoin || result['bitcoin']);
+      // Use verifyTimestamp directly: top-level verify() requires a second
+      // "original" DetachedTimestampFile and would throw without it. verifyTimestamp
+      // returns a per-chain map { bitcoin: { timestamp, height } } (empty while pending).
+      // ignoreBitcoinNode routes verification through a block explorer (esplora) so no
+      // local Bitcoin node is required. (API confirmed against the library source.)
+      const result = await o.verifyTimestamp(detached.timestamp, { ignoreBitcoinNode: true });
+      const btc = result && result.bitcoin;
       if (btc && (btc.timestamp || btc.height)) {
         const timeUtc = btc.timestamp ? new Date(btc.timestamp * 1000).toISOString() : undefined;
-        return { ok: true, bitcoinBlock: btc.height, timeUtc, detail: 'verified against Bitcoin' };
+        return { ok: true, bitcoinBlock: btc.height, timeUtc, detail: 'verified against Bitcoin via block explorer' };
       }
       return { ok: false, detail: 'no Bitcoin attestation yet (still pending confirmation)' };
     } catch (e) {
