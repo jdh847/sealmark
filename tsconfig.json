@@ -4,6 +4,7 @@
     "target": "ES2018",
     "moduleResolution": "bundler",
     "lib": ["DOM", "ES2018", "ES2020"],
+    "types": ["node"],
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -13,5 +14,5 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
 }

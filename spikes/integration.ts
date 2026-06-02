@@ -38,7 +38,12 @@ async function main() {
   const v = await backend.verify(proof, digest);
   console.log('5. verify (pending):', v.ok, '-', v.detail);
 
-  console.log('\nINTEGRATION OK (core + backend wrapper work end to end; Obsidian shell pending on-machine)');
+  // 6. upgrade on a still-pending proof must not crash and must report pending
+  //    (the sealed branch needs a Bitcoin-confirmed proof, validated on-machine later)
+  const up = await backend.upgrade(proof);
+  console.log('6. upgrade (pending):', up.kind, up.kind === 'pending' ? 'OK (expected pending)' : 'UNEXPECTED');
+
+  console.log('\nINTEGRATION OK (core + backend wrapper work end to end; Obsidian shell + sealed-path pending on-machine)');
 }
 
 main().catch((e) => { console.error('INTEGRATION FAIL', e); process.exit(1); });

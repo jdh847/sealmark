@@ -28,6 +28,8 @@ export default class SealmarkPlugin extends Plugin {
     await this.loadPersisted();
 
     this.statusBar = this.addStatusBarItem();
+    this.statusBar.style.cursor = 'pointer';
+    this.statusBar.addEventListener('click', () => void this.verifyActive());
 
     this.addCommand({ id: 'seal-note', name: 'Seal current note', callback: () => void this.sealActive() });
     this.addCommand({ id: 'upgrade-pending', name: 'Upgrade pending seals', callback: () => void this.upgradePending() });
@@ -54,9 +56,21 @@ export default class SealmarkPlugin extends Plugin {
       new Notice('Sealmark: no active note');
       return;
     }
+    if (file.extension !== 'md') {
+      new Notice('Sealmark: only markdown notes can be sealed');
+      return;
+    }
     try {
       const bytes = await canonicalBytes(this.app.vault, file);
       const digest = await leafHash(bytes);
+      const existing = this.records[file.path];
+      if (existing && existing.contentHash === toHex(digest)) {
+        new Notice(`Sealmark: already sealed (${existing.confirmation}), content unchanged`);
+        return;
+      }
+      if (existing) {
+        new Notice('Sealmark: content changed since last seal, creating a new proof (replaces the old .ots)');
+      }
       // v0: single leaf. Interface reserved for v1 Merkle aggregation.
       this.aggregator.build([{ id: file.path, digest }]);
       new Notice('Sealmark: submitting to Bitcoin calendars…');
@@ -138,6 +152,7 @@ export default class SealmarkPlugin extends Plugin {
     const r = this.records[file.path];
     if (!r) {
       this.statusBar.setText('Sealmark: unsealed');
+      this.statusBar.title = 'This note is not sealed. Run "Seal current note".';
       return;
     }
     try {
@@ -145,8 +160,17 @@ export default class SealmarkPlugin extends Plugin {
       const badge = deriveBadge(r, toHex(await leafHash(bytes)));
       const icon = badge.sealed ? (badge.match === 'Drifted' ? '(!)' : 'OK') : '...';
       this.statusBar.setText(`Sealmark [${icon}]: ${badge.label}`);
+      this.statusBar.title = [
+        `confirmation: ${badge.confirmation}`,
+        `content: ${badge.match}${badge.match === 'Drifted' ? ' (edited since seal; old proof still valid for the sealed bytes)' : ''}`,
+        r.bitcoinBlock ? `bitcoin block: ${r.bitcoinBlock}` : null,
+        r.timeUtc ? `time: ${r.timeUtc}` : null,
+        `backend: ${r.backendId}`,
+        'click to verify',
+      ].filter(Boolean).join('\n');
     } catch {
       this.statusBar.setText('Sealmark: ?');
+      this.statusBar.title = 'Sealmark: could not read note bytes';
     }
   }
 
