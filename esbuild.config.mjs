@@ -17,6 +17,10 @@ const context = await esbuild.context({
   logLevel: 'info',
   sourcemap: prod ? false : 'inline',
   treeShaking: true,
+  // Strip console.*/debugger from production bundles (Obsidian guideline: no
+  // unnecessary logging). This also removes the opentimestamps library's own
+  // console.log calls that would otherwise leak into users' dev console.
+  drop: prod ? ['console', 'debugger'] : [],
   outfile: 'main.js',
 });
 
