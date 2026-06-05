@@ -64,6 +64,10 @@ dependency; the Obsidian shell (`src/obsidian`, `src/main.ts`) is a thin layer o
 All contact with the `opentimestamps` library is confined to one file
 (`src/core/anchor/public-calendar.ts`).
 
+## Author
+
+Built by Yitebeier Aikebaier, who also works on Nexum, a Bitcoin-anchored ledger.
+
 ## License
 
 MIT.

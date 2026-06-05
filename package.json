@@ -16,7 +16,7 @@
     "timestamp",
     "proof-of-existence"
   ],
-  "author": "the team behind Nexum",
+  "author": "Yitebeier Aikebaier",
   "license": "MIT",
   "dependencies": {
     "opentimestamps": "github:jdh847/javascript-opentimestamps"

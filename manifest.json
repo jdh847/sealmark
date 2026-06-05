@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "minAppVersion": "1.4.0",
   "description": "Private proof of existence for your notes. Hash locally, anchor to Bitcoin via OpenTimestamps, verify offline. Your content never leaves your machine; only a hash is published.",
-  "author": "the team behind Nexum",
-  "authorUrl": "https://github.com/jdh847/sealmark",
+  "author": "Yitebeier Aikebaier",
+  "authorUrl": "https://github.com/jdh847",
   "isDesktopOnly": true
 }
