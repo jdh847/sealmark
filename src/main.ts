@@ -28,7 +28,7 @@ export default class SealmarkPlugin extends Plugin {
     await this.loadPersisted();
 
     this.statusBar = this.addStatusBarItem();
-    this.statusBar.style.cursor = 'pointer';
+    this.statusBar.classList.add('sealmark-status-bar');
     this.statusBar.addEventListener('click', () => void this.verifyActive());
 
     this.addCommand({ id: 'seal-note', name: 'Seal current note', callback: () => void this.sealActive() });

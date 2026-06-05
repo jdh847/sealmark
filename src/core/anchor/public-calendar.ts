@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
+// This module quarantines the untyped, unmaintained `opentimestamps` library:
+// every call into it is necessarily `any`-typed, so the no-unsafe-* rules are
+// disabled here and only here (the blast radius is this one file by design).
 import * as OTS from 'opentimestamps';
 import type { AnchorBackend, Proof, UpgradeResult, VerificationResult } from './index';
 import type { Digest } from '../hashing';
