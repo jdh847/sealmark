@@ -82,7 +82,7 @@ reordering, attachments and transclusions excluded) is made in exactly one place
 the shell (`canonical-bytes.ts`). Centralizing this guarantees two independent
 verifiers agree on the input.
 
-### 4.2 `AnchorBackend` (the Nexum-decoupling boundary)
+### 4.2 `AnchorBackend` (the backend-decoupling boundary)
 
 ```ts
 interface AnchorBackend {
@@ -95,7 +95,7 @@ interface AnchorBackend {
 Implementations:
 
 - `PublicCalendarBackend` (default): submits to public OpenTimestamps calendars.
-- `NexumBackend` (opt-in, deferred to v1): a hosted enhancement.
+- A hosted backend (opt-in, deferred to v1): an optional hosted enhancement.
 
 The plugin depends only on the interface. Because the default injected
 implementation is `PublicCalendarBackend`, "the plugin works fully without any
@@ -218,7 +218,7 @@ The interfaces above are cheap to reserve. Their second implementations are expe
 and out of scope for v0. v0 ships exactly one leg behind each boundary:
 
 - `MerkleAggregator`: interface only, no implementation yet.
-- `NexumBackend`: interface only, no implementation yet.
+- Hosted backend: interface only, no implementation yet.
 - Multi-calendar upgrade reconciliation: single-calendar path first.
 - Shareable proof card / hosted verification page: not in v0.
 
@@ -227,20 +227,18 @@ now would be the mistake.
 
 ---
 
-## 8. Relationship to Nexum
+## 8. Relationship to an optional hosted backend
 
-Sealmark and Nexum (the author's Bitcoin-anchoring protocol) are deliberately
-**decoupled at the technical layer**:
+Sealmark is deliberately **decoupled from any hosted backend at the technical layer**:
 
-- Nexum is always an opt-in `AnchorBackend`, off by default. The plugin is fully
-  functional against public calendars alone. A default dependency on a hosted backend
-  would contradict the trust-minimized value proposition and is treated as a hard
-  architectural rule, not a preference.
-- Nexum adds *convenience* (faster confirmation, private calendar, HSM signing,
+- A hosted backend is always an opt-in `AnchorBackend`, off by default. The plugin is
+  fully functional against public calendars alone. A default dependency on a hosted
+  backend would contradict the trust-minimized value proposition and is treated as a
+  hard architectural rule, not a preference.
+- A hosted backend can only add *convenience* (faster confirmation, a private calendar,
   audit export), never *capability*.
-- The relationship is a narrative one (the same protocol thinking, open-sourced into
-  a tool researchers use) and a one-directional funnel (plugin to Nexum, never the
-  reverse), not a product bundling.
+- The default public, trust-minimized path is the product; any hosted option is a
+  strictly optional, one-directional enhancement, never a bundled dependency.
 
 ---
 
@@ -252,7 +250,7 @@ Sealmark and Nexum (the author's Bitcoin-anchoring protocol) are deliberately
 | Electron renderer CORS blocks calendar calls | All HTTP behind `HttpTransport`, injected with Obsidian `requestUrl()` |
 | Note edited during pending window | Drift modeled as an orthogonal derived dimension, not a mutable flag |
 | Verifier disagreement on hashed bytes | Canonical bytes defined in exactly one place |
-| Pressure to bundle Nexum | `AnchorBackend` interface + default public backend makes coupling structurally awkward |
+| Pressure to bundle a hosted backend | `AnchorBackend` interface + default public backend makes coupling structurally awkward |
 
 Two of these (the unmaintained library and CORS) must be validated by a spike before
 the rest of this architecture is built. If a spike fails, fix the transport or
@@ -275,7 +273,7 @@ sealmark/
       anchor/
         index.ts          # AnchorBackend interface
         public-calendar.ts# default
-        nexum.ts          # v1, interface placeholder only
+        hosted-backend.ts # v1, interface placeholder only
       proof/
         store.ts
         state.ts

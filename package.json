@@ -9,11 +9,21 @@
     "typecheck": "tsc --noEmit",
     "test": "esbuild tests/core.test.ts --bundle --platform=node --format=cjs --outfile=tests/.core.test.cjs --log-level=error && node tests/.core.test.cjs"
   },
-  "keywords": ["obsidian", "opentimestamps", "bitcoin", "timestamp", "proof-of-existence"],
+  "keywords": [
+    "obsidian",
+    "opentimestamps",
+    "bitcoin",
+    "timestamp",
+    "proof-of-existence"
+  ],
   "author": "the team behind Nexum",
   "license": "MIT",
   "dependencies": {
-    "opentimestamps": "^0.4.9"
+    "opentimestamps": "github:jdh847/javascript-opentimestamps"
+  },
+  "overrides": {
+    "bn.js": "^4.12.3",
+    "elliptic": "^6.6.1"
   },
   "devDependencies": {
     "@types/node": "^25.9.1",

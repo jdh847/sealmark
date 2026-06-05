@@ -18,9 +18,9 @@ export interface VerificationResult {
   detail: string;
 }
 
-// The boundary that keeps Nexum optional. The default implementation is
-// PublicCalendarBackend; a future NexumBackend implements the same interface, so the
-// plugin depends only here and never hard-wires a hosted backend. (ARCHITECTURE 4.2)
+// The seam that keeps the anchoring backend swappable. The default implementation is
+// PublicCalendarBackend; an optional hosted backend can implement the same interface, so
+// the plugin depends only on this boundary and never hard-wires a specific provider.
 export interface AnchorBackend {
   readonly id: string;
   submit(digest: Digest): Promise<Proof>;

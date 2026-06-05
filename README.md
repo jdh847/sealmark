@@ -54,7 +54,7 @@ Settings → Community plugins.
 
 - Content is hashed locally; only the digest is sent to calendars.
 - The default backend is free public OpenTimestamps calendars. An optional hosted
-  backend (Nexum) may be added later, off by default; the plugin is fully functional
+  backend may be added later, off by default; the plugin is fully functional
   without it.
 
 ## Architecture
