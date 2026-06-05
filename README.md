@@ -12,11 +12,10 @@ preprint, which makes priority public by making the content public).
 
 ## Status
 
-Early v0. The cryptographic core and the library integration are validated by spikes
-on Node: the `opentimestamps` library loads and stamps, proofs round-trip, and the
-plugin bundles. What remains is on-machine validation inside the Obsidian renderer
-(does the bundled library run there, and do calendar calls survive renderer CORS).
-See `ARCHITECTURE.md` section 9.
+v0, validated end-to-end inside Obsidian: the bundled `opentimestamps` library loads
+in the renderer and the seal → upgrade → verify flow works on a real vault. The
+cryptographic core is additionally covered by Node spikes and unit tests. See
+`ARCHITECTURE.md` for the architecture and trust model.
 
 ## How it works
 
