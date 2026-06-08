@@ -1,7 +1,7 @@
 {
   "id": "sealmark",
   "name": "Sealmark",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "minAppVersion": "1.4.0",
   "description": "Private proof of existence for your notes. Hash locally, anchor to Bitcoin via OpenTimestamps, verify offline. Your content never leaves your machine; only a hash is published.",
   "author": "Yitebeier Aikebaier",

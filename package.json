@@ -1,6 +1,6 @@
 {
   "name": "sealmark",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Private proof of existence for Obsidian notes via OpenTimestamps and Bitcoin.",
   "main": "main.js",
   "scripts": {
